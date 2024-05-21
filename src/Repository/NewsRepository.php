@@ -88,7 +88,7 @@ class NewsRepository extends ServiceEntityRepository implements DataProviderRepo
     {
         $queryBuilder = $this->createQueryBuilder('news')
             ->leftJoin('news.translations', 'translation')
-            ->where('translation.published = 1')
+            ->where('translation.published = true')
             ->andWhere('translation.locale = :locale')->setParameter('locale', $locale)
             ->orderBy('translation.authored', 'DESC')
             ->setMaxResults($limit)
@@ -162,7 +162,7 @@ class NewsRepository extends ServiceEntityRepository implements DataProviderRepo
         $newsCount = $this->createQueryBuilder('news')
             ->select('count(news.id)')
             ->leftJoin('news.translations', 'translation')
-            ->where('translation.published = 1')
+            ->where('translation.published = true')
             ->andWhere('translation.locale = :locale')
             ->setParameter('locale', $locale)
             ->getQuery()
@@ -181,7 +181,7 @@ class NewsRepository extends ServiceEntityRepository implements DataProviderRepo
 
         $queryBuilder = $this->createQueryBuilder('news')
             ->leftJoin('news.translations', 'translation')
-            ->where('translation.published = 1')
+            ->where('translation.published = true')
             ->andWhere('translation.locale = :locale')->setParameter('locale', $locale)
             ->orderBy('translation.authored', 'DESC')
             ->setMaxResults($limit)

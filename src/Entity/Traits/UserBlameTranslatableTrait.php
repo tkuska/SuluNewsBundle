@@ -21,7 +21,7 @@ trait UserBlameTranslatableTrait
             return null;
         }
 
-        return $translation->getCreator()->getId();
+        return $translation->getCreator()?->getId();
     }
 
     /**
@@ -34,6 +34,6 @@ trait UserBlameTranslatableTrait
             return null;
         }
 
-        return $translation->getChanger()->getId();
+        return $translation->getChanger()?->getId();
     }
 }
