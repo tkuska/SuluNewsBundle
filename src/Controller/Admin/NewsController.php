@@ -47,6 +47,7 @@ class NewsController extends AbstractRestController implements ClassResourceInte
     private RouteRepositoryInterface $routeRepository;
     private SecurityCheckerInterface $securityChecker;
     private TrashManagerInterface $trashManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         NewsModel $newsModel,
@@ -58,7 +59,8 @@ class NewsController extends AbstractRestController implements ClassResourceInte
         SecurityCheckerInterface $securityChecker,
         ViewHandlerInterface $viewHandler,
         TrashManagerInterface $trashManager,
-        ?TokenStorageInterface $tokenStorage = null
+        ?TokenStorageInterface $tokenStorage = null,
+        EntityManagerInterface $entityManager,
     ) {
         parent::__construct($viewHandler, $tokenStorage);
         $this->newsModel                        = $newsModel;
@@ -69,6 +71,7 @@ class NewsController extends AbstractRestController implements ClassResourceInte
         $this->routeRepository                   = $routeRepository;
         $this->securityChecker                   = $securityChecker;
         $this->trashManager = $trashManager;
+        $this->entityManager = $entityManager;
     }
 
     public function cgetAction(Request $request): Response
@@ -215,6 +218,9 @@ class NewsController extends AbstractRestController implements ClassResourceInte
             $entity->getLocale(),
             $entity->getRoutePath()
         );
+        // FIX zjebanego podejścia w SuluRouteBundle
+        $this->entityManager->flush();
+
     }
 
     protected function removeRoutesForEntity(News $entity): void
@@ -228,5 +234,7 @@ class NewsController extends AbstractRestController implements ClassResourceInte
         foreach ($routes as $route) {
             $this->routeRepository->remove($route);
         }
+        // FIX zjebanego podejścia w SuluRouteBundle
+        $this->entityManager->flush();
     }
 }
