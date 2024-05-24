@@ -9,6 +9,7 @@ use Manuxi\SuluNewsBundle\Entity\News;
 use Manuxi\SuluNewsBundle\Entity\Models\NewsExcerptModel;
 use Manuxi\SuluNewsBundle\Entity\Models\NewsModel;
 use Manuxi\SuluNewsBundle\Entity\Models\NewsSeoModel;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use FOS\RestBundle\Controller\Annotations as Rest;

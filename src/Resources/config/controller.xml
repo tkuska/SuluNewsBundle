@@ -16,6 +16,7 @@
             <argument type="service" id="fos_rest.view_handler.default"/>
             <argument type="service" id="sulu_trash.trash_manager"/>
             <argument type="service" id="security.token_storage"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
 
             <tag name="sulu.context" context="admin"/>
         </service>
