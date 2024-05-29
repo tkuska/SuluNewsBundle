@@ -177,16 +177,21 @@ class NewsRepository extends ServiceEntityRepository implements DataProviderRepo
 
     public function getPublishedNews(array $filters, string $locale, ?int $page, $pageSize, ?int $limit, array $options): array
     {
-        $pageCurrent = (key_exists('page', $options)) ? (int)$options['page'] : 0;
-
         $queryBuilder = $this->createQueryBuilder('news')
             ->leftJoin('news.translations', 'translation')
             ->where('translation.published = true')
             ->andWhere('translation.locale = :locale')->setParameter('locale', $locale)
-            ->orderBy('translation.authored', 'DESC')
-            ->setMaxResults($limit)
-            ->setFirstResult($pageCurrent * $limit);
+            ->orderBy('translation.authored', 'DESC');
 
+        if (null !== $page && $pageSize > 0) {
+            $pageOffset = ($page - 1) * $pageSize;
+            $restLimit = $limit - $pageOffset;
+
+            $queryBuilder->setMaxResults($pageSize);
+            $queryBuilder->setFirstResult($pageOffset);
+        } elseif (null !== $limit) {
+            $queryBuilder->setMaxResults($limit);
+        }
         $this->prepareFilter($queryBuilder, $filters);
 
         $news = $queryBuilder->getQuery()->getResult();
