@@ -60,8 +60,8 @@ class NewsController extends AbstractRestController implements ClassResourceInte
         SecurityCheckerInterface $securityChecker,
         ViewHandlerInterface $viewHandler,
         TrashManagerInterface $trashManager,
-        ?TokenStorageInterface $tokenStorage = null,
         EntityManagerInterface $entityManager,
+        ?TokenStorageInterface $tokenStorage = null,
     ) {
         parent::__construct($viewHandler, $tokenStorage);
         $this->newsModel                        = $newsModel;
